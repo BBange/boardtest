@@ -1,17 +1,25 @@
 package kr.co.bangji.repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 import kr.co.bangji.model.BoardData;
 
+@Repository
 public class BoardDaoImpl implements BoardDao {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
+	
+	/*
+	 * public String getData() { String date; return
+	 * jdbcTemplate.queryForObject("select now()", date ); }
+	 */
+	
 	@Override
 	public int createBoard(BoardData b) {
 		return jdbcTemplate.update("select into board ( title , clientid , data , context) value (?,?,?,?)",
@@ -37,10 +45,10 @@ public class BoardDaoImpl implements BoardDao {
 	}
 
 	@Override
-	public List<BoardData> getList(int a) {
-		ArrayList<BoardData> list = new ArrayList<BoardData>();
-		// TODO Auto-generated method stub
-		return list;
+	public List<BoardData> getList() {
+		return jdbcTemplate.query("select * from board where bnumber order by bnumber desc" ,
+				new BeanPropertyRowMapper<BoardData>(BoardData.class));
+		
 	}
 
 }
