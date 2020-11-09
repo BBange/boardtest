@@ -18,6 +18,16 @@ public class ClientService {
 	public int createId(ClientData cdata) { // 아이디 생성
 		List<ClientData> idList = cdao.readAllId();
 		Iterator<ClientData> iter = idList.iterator();
+		int result = 0;
+		if (cdata.getId() == null || cdata.getPassword() == null) {
+			System.out.println("값이 없습니다");
+			return result;
+		}
+
+		if (cdata.getId().length() == 0 || cdata.getPassword().length() == 0) {
+			System.out.println("공백이 존재합니다");
+			return result;
+		}
 
 		while (iter.hasNext()) {
 			if (iter.next().getId().equals(cdata.getId())) {
